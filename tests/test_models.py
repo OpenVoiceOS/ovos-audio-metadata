@@ -1,10 +1,10 @@
 from pathlib import Path
 
 from bidict import frozenbidict
-from ovos_audio_metadata.tbm_utils import DataReader
+from ovos_ocp_files_plugin.tbm_utils import DataReader
 from ward import test
 
-from ovos_audio_metadata.models import (
+from ovos_ocp_files_plugin.models import (
 	Format,
 	Picture,
 	StreamInfo,

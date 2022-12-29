@@ -8,6 +8,7 @@ from functools import reduce
 
 from .tbm_utils import datareader
 
+
 def apply_unsynchronization(data):
 	"""Apply ID3v2 unsynchronization scheme to data."""
 

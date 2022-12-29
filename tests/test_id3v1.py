@@ -4,7 +4,7 @@ from ward import (
 	using,
 )
 
-from ovos_audio_metadata import (
+from ovos_ocp_files_plugin import (
 	FormatError,
 	ID3v1,
 	ID3v1Fields,
