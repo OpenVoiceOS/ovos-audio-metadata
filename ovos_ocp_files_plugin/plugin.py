@@ -27,10 +27,14 @@ class OCPFilesMetadataExtractor(OCPStreamExtractor):
 
     def validate_uri(self, uri):
         """ return True if uri can be handled by this extractor, False otherwise"""
-        return isfile(uri)
+        if uri.startswith("file//"):
+            uri = uri.replace("file//", "")
+        return uri.startswith("file://") or isfile(expanduser(uri))
 
     def extract_stream(self, uri, video=True):
         """ return the real uri that can be played by OCP """
+        if uri.startswith("file//"):
+            uri = uri.replace("file//", "")
         return self.extract_metadata(uri)
 
     @staticmethod
@@ -40,7 +44,8 @@ class OCPFilesMetadataExtractor(OCPStreamExtractor):
                 "playback": PlaybackType.AUDIO,
                 "status": TrackState.DISAMBIGUATION}
 
-        m = get_metadata(uri.replace("file://", ""))
+        uri = expanduser(uri.replace("file://", ""))
+        m = get_metadata(uri)
         if m.tags:
             if m.tags.get("title"):
                 meta["title"] = m.tags.title[0]
