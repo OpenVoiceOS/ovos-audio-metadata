@@ -6,7 +6,7 @@ from ward import (
 	test,
 )
 
-from audio_metadata.utils import (
+from ovos_audio_metadata.utils import (
 	apply_unsynchronization,
 	decode_bytestring,
 	decode_synchsafe_int,

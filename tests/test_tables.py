@@ -1,6 +1,6 @@
 from ward import test
 
-from audio_metadata.formats.tables import (
+from ovos_audio_metadata.formats.tables import (
 	_BaseEnum,
 	_BaseIntEnum,
 )

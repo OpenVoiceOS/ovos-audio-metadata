@@ -4,7 +4,7 @@ from ward import (
 	using,
 )
 
-from audio_metadata import (
+from ovos_audio_metadata import (
 	FLAC,
 	FLACApplication,
 	FLACCueSheet,
