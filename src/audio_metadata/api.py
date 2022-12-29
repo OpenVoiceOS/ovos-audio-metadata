@@ -10,7 +10,7 @@ from io import (
 	FileIO,
 )
 
-from tbm_utils import DataReader
+from .tbm_utils import DataReader
 
 from .exceptions import (
 	FormatError,
@@ -19,6 +19,7 @@ from .exceptions import (
 from .formats import (
 	FLAC,
 	MP3,
+	MP4,
 	WAVE,
 	ID3v2,
 	MP3StreamInfo,
@@ -67,6 +68,12 @@ def determine_format(data):
 
 	if d.startswith(b'RIFF'):
 		return WAVE
+
+	if (
+		d[4:8].lower() == b'ftyp'
+		and d[8:].lower().startswith((b'dash', b'm4a', b'm4b', b'm4v', b'mp4'))
+	):
+		return MP4
 
 	if d.startswith(b'ID3'):
 		ID3v2.parse(data)
