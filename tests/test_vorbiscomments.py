@@ -5,7 +5,7 @@ from ward import (
 	using,
 )
 
-from ovos_audio_metadata import (
+from ovos_ocp_files_plugin import (
 	FormatError,
 	TagError,
 	VorbisComment,

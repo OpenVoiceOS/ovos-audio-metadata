@@ -7,8 +7,8 @@ from ward import (
 	using,
 )
 
-import ovos_audio_metadata
-from ovos_audio_metadata import UnsupportedFormat
+import ovos_ocp_files_plugin
+from ovos_ocp_files_plugin import UnsupportedFormat
 from tests.fixtures import id3v2_header
 
 AUDIO_FILEPATHS = list((Path(__file__).parent / 'audio').iterdir())
@@ -20,7 +20,7 @@ AUDIO_FILEPATHS = list((Path(__file__).parent / 'audio').iterdir())
 )
 @using(id3v2_header=id3v2_header)
 def _(id3v2_header):
-	assert ovos_audio_metadata.determine_format(id3v2_header) is None
+	assert ovos_ocp_files_plugin.determine_format(id3v2_header) is None
 
 
 @test(
@@ -28,7 +28,7 @@ def _(id3v2_header):
 	tags=['unit', 'api', 'determine_format']
 )
 def _():
-	assert ovos_audio_metadata.determine_format([__file__]) is None
+	assert ovos_ocp_files_plugin.determine_format([__file__]) is None
 
 
 @test(
@@ -36,7 +36,7 @@ def _():
 	tags=['unit', 'api', 'determine_format']
 )
 def _():
-	assert ovos_audio_metadata.determine_format(__file__) is None
+	assert ovos_ocp_files_plugin.determine_format(__file__) is None
 
 
 @test(
@@ -45,8 +45,8 @@ def _():
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
 	assert issubclass(
-		ovos_audio_metadata.determine_format(fp.read_bytes()),
-		ovos_audio_metadata.Format
+		ovos_ocp_files_plugin.determine_format(fp.read_bytes()),
+		ovos_ocp_files_plugin.Format
 	)
 
 
@@ -57,8 +57,8 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
 	assert issubclass(
-		ovos_audio_metadata.determine_format(str(fp)),
-		ovos_audio_metadata.Format
+		ovos_ocp_files_plugin.determine_format(str(fp)),
+		ovos_ocp_files_plugin.Format
 	)
 
 
@@ -68,8 +68,8 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
 	assert issubclass(
-		ovos_audio_metadata.determine_format(fp.open('rb')),
-		ovos_audio_metadata.Format
+		ovos_ocp_files_plugin.determine_format(fp.open('rb')),
+		ovos_ocp_files_plugin.Format
 	)
 
 
@@ -79,8 +79,8 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
 	assert issubclass(
-		ovos_audio_metadata.determine_format(fp),
-		ovos_audio_metadata.Format
+		ovos_ocp_files_plugin.determine_format(fp),
+		ovos_ocp_files_plugin.Format
 	)
 
 
@@ -90,7 +90,7 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 )
 def _():
 	with raises(UnsupportedFormat) as exc:
-		ovos_audio_metadata.load(__file__)
+		ovos_ocp_files_plugin.load(__file__)
 	assert str(exc.raised) == "Supported format signature not found."
 
 
@@ -100,7 +100,7 @@ def _():
 )
 def _():
 	with raises(ValueError) as exc:
-		ovos_audio_metadata.load(b'test')
+		ovos_ocp_files_plugin.load(b'test')
 	assert str(exc.raised) == "Not a valid filepath or file-like object."
 
 
@@ -109,7 +109,7 @@ def _():
 	tags=['integration', 'api', 'load'],
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
-	ovos_audio_metadata.load(str(fp))
+	ovos_ocp_files_plugin.load(str(fp))
 
 
 @test(
@@ -118,7 +118,7 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
 	with open(fp, 'rb') as f:
-		ovos_audio_metadata.load(f)
+		ovos_ocp_files_plugin.load(f)
 
 
 @test(
@@ -126,7 +126,7 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 	tags=['integration', 'api', 'load'],
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
-	ovos_audio_metadata.load(fp)
+	ovos_ocp_files_plugin.load(fp)
 
 
 @test(
@@ -136,7 +136,7 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 def _():
 	with raises(UnsupportedFormat) as exc:
 		with open(__file__, 'rb') as f:
-			ovos_audio_metadata.loads(f.read())
+			ovos_ocp_files_plugin.loads(f.read())
 	assert str(exc.raised) == "Supported format signature not found."
 
 
@@ -146,7 +146,7 @@ def _():
 )
 def _():
 	with raises(ValueError) as exc:
-		ovos_audio_metadata.loads(__file__)
+		ovos_ocp_files_plugin.loads(__file__)
 	assert str(exc.raised) == "Not a valid bytes-like object."
 
 
@@ -155,7 +155,7 @@ def _():
 	tags=['integration', 'api', 'loads'],
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
-	ovos_audio_metadata.loads(fp.read_bytes())
+	ovos_ocp_files_plugin.loads(fp.read_bytes())
 
 
 @test(
@@ -163,7 +163,7 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 	tags=['integration', 'api', 'loads'],
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
-	ovos_audio_metadata.loads(bytearray(fp.read_bytes()))
+	ovos_ocp_files_plugin.loads(bytearray(fp.read_bytes()))
 
 
 @test(
@@ -171,4 +171,4 @@ def _(fp=each(*AUDIO_FILEPATHS)):
 	tags=['integration', 'api', 'loads'],
 )
 def _(fp=each(*AUDIO_FILEPATHS)):
-	ovos_audio_metadata.loads(memoryview(fp.read_bytes()))
+	ovos_ocp_files_plugin.loads(memoryview(fp.read_bytes()))
