@@ -44,34 +44,43 @@ class OCPFilesMetadataExtractor(OCPStreamExtractor):
                 "playback": PlaybackType.AUDIO,
                 "status": TrackState.DISAMBIGUATION}
 
-        uri = expanduser(uri.replace("file://", ""))
-        m = get_metadata(uri)
-        if m.tags:
-            if m.tags.get("title"):
-                meta["title"] = m.tags.title[0]
-            if m.tags.get("album"):
-                meta["album"] = m.tags.album[0]
+        video_ext = ["3g2", "3gp", "3gpp", "asf", "avi", "flv", "m2ts", "mkv", "mov", "mp4",
+                     "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
+        ext = uri.split(".")[-1]
+        if ext in video_ext:
+            meta["playback"] = PlaybackType.VIDEO
 
-            if m.tags.get("artist"):
-                meta["artist"] = m.tags.artist[0]
-            elif m.tags.get("composer"):
-                meta["artist"] = m.tags.composer[0]
+        uri = expanduser(uri.replace("file://", "").replace("%20", " "))
+        try:
+            m = get_metadata(uri)
+            if m.tags:
+                if m.tags.get("title"):
+                    meta["title"] = m.tags.title[0]
+                if m.tags.get("album"):
+                    meta["album"] = m.tags.album[0]
 
-            if m.tags.get("date"):
-                meta["date"] = m.tags.date[0]
-            if m.tags.get("audiolength"):
-                meta["duration"] = m.tags.audiolength[0]
-            if m.tags.get("genre"):
-                meta["genre"] = m.tags.genre[0]
+                if m.tags.get("artist"):
+                    meta["artist"] = m.tags.artist[0]
+                elif m.tags.get("composer"):
+                    meta["artist"] = m.tags.composer[0]
 
-        if m.pictures:
-            try:
-                img_path = f"{tempfile.gettempdir()}/{meta['title']}.jpg"
-                with open(img_path, "wb") as f:
-                    f.write(m.pictures[0].data)
-                meta["image"]: img_path
-            except:
-                pass
+                if m.tags.get("date"):
+                    meta["date"] = m.tags.date[0]
+                if m.tags.get("audiolength"):
+                    meta["duration"] = m.tags.audiolength[0]
+                if m.tags.get("genre"):
+                    meta["genre"] = m.tags.genre[0]
+
+            if m.pictures:
+                try:
+                    img_path = f"{tempfile.gettempdir()}/{meta['title']}.jpg"
+                    with open(img_path, "wb") as f:
+                        f.write(m.pictures[0].data)
+                    meta["image"]: img_path
+                except:
+                    pass
+        except:
+            pass  # failed to xtract metadata
         return meta
 
 
