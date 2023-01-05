@@ -48,7 +48,10 @@ class OCPFilesMetadataExtractor(OCPStreamExtractor):
                      "mpeg", "mpg", "mts", "ogm", "ogv", "qt", "rm", "vob", "webm", "wmv"]
         ext = uri.split(".")[-1]
         if ext in video_ext:
+            # No need to extract this since video player doesnt show it
+            # this also loads the whole file in memory which can take a long long long time for videos
             meta["playback"] = PlaybackType.VIDEO
+            return meta
 
         uri = expanduser(uri.replace("file://", "").replace("%20", " "))
         try:
