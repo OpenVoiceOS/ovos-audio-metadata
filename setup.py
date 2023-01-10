@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -18,11 +18,38 @@ PLUGIN_ENTRY_POINT = f'{PLUGIN_NAME} = {PLUGIN_PKG}.plugin:{PLUGIN_CLAZZ}'
 CONFIG_ENTRY_POINT = f'{PLUGIN_NAME}.config = {PLUGIN_PKG}:{PLUGIN_CONFIGS}'
 
 
+def get_version():
+    """ Find the version of the package"""
+    version = None
+    version_file = os.path.join(BASEDIR, PLUGIN_PKG, 'version.py')
+    major, minor, build, alpha = (None, None, None, None)
+    with open(version_file) as f:
+        for line in f:
+            if 'VERSION_MAJOR' in line:
+                major = line.split('=')[1].strip()
+            elif 'VERSION_MINOR' in line:
+                minor = line.split('=')[1].strip()
+            elif 'VERSION_BUILD' in line:
+                build = line.split('=')[1].strip()
+            elif 'VERSION_ALPHA' in line:
+                alpha = line.split('=')[1].strip()
+
+            if ((major and minor and build and alpha) or
+                    '# END_VERSION_BLOCK' in line):
+                break
+    version = f"{major}.{minor}.{build}"
+    if alpha and int(alpha) > 0:
+        version += f"a{alpha}"
+    return version
+
+
 def package_files(directory):
     paths = []
     for (path, directories, filenames) in os.walk(directory):
         for filename in filenames:
+            print(filename)
             paths.append(os.path.join('..', path, filename))
+    print(paths)
     return paths
 
 
@@ -39,15 +66,14 @@ def required(requirements_file):
 
 setup(
     name=PLUGIN_NAME,
-    version="0.12.0",
+    version=get_version(),
     description='metadata extractor from audio files',
     url='https://github.com/OpenVoiceOS/ovos-ocp-files-plugin',
     author='thebigmunch',
     author_email='mail@thebigmunch.me',
     license='MIT',
-    packages=[PLUGIN_PKG],
+    packages=find_packages(include=[f'{PLUGIN_PKG}*']),
     install_requires=required("requirements.txt"),
-    package_data={'': package_files(PLUGIN_PKG)},
     zip_safe=True,
     include_package_data=True,
     keywords='ovos ocp plugin',
