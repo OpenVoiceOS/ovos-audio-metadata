@@ -2,7 +2,11 @@
 
 ## [V0.13.0a2](https://github.com/OpenVoiceOS/ovos-ocp-files-plugin/tree/V0.13.0a2) (2023-01-25)
 
-[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-files-plugin/compare/63d7eebe98d4d99cc27cfa2385cc2965cca22676...V0.13.0a2)
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-files-plugin/compare/V0.13.0a3...V0.13.0a2)
+
+## [V0.13.0a3](https://github.com/OpenVoiceOS/ovos-ocp-files-plugin/tree/V0.13.0a3) (2023-01-25)
+
+[Full Changelog](https://github.com/OpenVoiceOS/ovos-ocp-files-plugin/compare/63d7eebe98d4d99cc27cfa2385cc2965cca22676...V0.13.0a3)
 
 **Implemented enhancements:**
 
