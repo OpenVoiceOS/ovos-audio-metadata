@@ -1,12 +1,10 @@
-import requests
-from os.path import isfile
-from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
-import shutil
 import tempfile
-from os import makedirs
-from os.path import basename, expanduser, isfile, join, dirname
+from os.path import basename, expanduser, isfile
+
+from ovos_plugin_manager.templates.ocp import OCPStreamExtractor
+from ovos_utils.ocp import TrackState, PlaybackType
+
 from .api import load as get_metadata
-from ovos_plugin_common_play.ocp.status import TrackState, PlaybackType
 
 
 class OCPFilesMetadataExtractor(OCPStreamExtractor):
@@ -85,6 +83,3 @@ class OCPFilesMetadataExtractor(OCPStreamExtractor):
         except:
             pass  # failed to xtract metadata
         return meta
-
-
-
